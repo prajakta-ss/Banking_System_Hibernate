@@ -1,0 +1,6 @@
+util\HibernateUtil.class
+app\App.class
+controller\LoginServlet.class
+controller\AccountServlet.class
+controller\RegisterServlet.class
+model\User.class
