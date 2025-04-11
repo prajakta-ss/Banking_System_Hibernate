@@ -6,46 +6,45 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h2>Welcome to Your Account</h2>
-  <p id="balanceDisplay">Loading balance...</p>
+  <div class="form-container">
+    <h2>Welcome to Your Account</h2>
+
+    <p id="balanceDisplay">Loading balance...</p>
+
     <h3>Check Balance</h3>
     <button onclick="fetchBalance(true)">Check Balance</button>
- <p id="checkResult"></p>
-  <h3>Deposit</h3>
-  <input type="number" id="depositAmount" />
-  <button onclick="deposit()">Deposit</button>
- <p id="depositResult"></p>
-  <h3>Withdraw</h3>
-  <input type="number" id="withdrawAmount" />
-  <button onclick="withdraw()">Withdraw</button>
+    <p id="checkResult"></p>
 
-  <p id="withdrawResult"></p>
+    <h3>Deposit</h3>
+    <input type="number" id="depositAmount" placeholder="Enter amount" />
+    <button onclick="deposit()">Deposit</button>
+    <p id="depositResult"></p>
+
+    <h3>Withdraw</h3>
+    <input type="number" id="withdrawAmount" placeholder="Enter amount" />
+    <button onclick="withdraw()">Withdraw</button>
+    <p id="withdrawResult"></p>
+  </div>
 
   <script>
     const accountNumber = localStorage.getItem("accountNumber");
 
-    /*async function fetchBalance() {
-      const res = await fetch(`/account?accountNumber=${accountNumber}`);
-      const data = await res.json();
-      document.getElementById("balanceDisplay").textContent = `Current Balance: ₹${data.balance}`;
-    }*/
     async function fetchBalance(showMessage = false) {
-  try {
-    const res = await fetch(`/account`);
-    const data = await res.json();
-    if (data.success) {
-      //document.getElementById("balanceDisplay").textContent = `Current Balance: ₹${data.balance}`;
-      if (showMessage) {
-        document.getElementById("checkResult").textContent = `Current Balance: ₹${data.balance}`;
+      try {
+        const res = await fetch(`/account`);
+        const data = await res.json();
+        if (data.success) {
+          document.getElementById("balanceDisplay").textContent = `Current Balance: ₹${data.balance}`;
+          if (showMessage) {
+            document.getElementById("checkResult").textContent = `Current Balance: ₹${data.balance}`;
+          }
+        } else {
+          document.getElementById("checkResult").textContent = "Unable to fetch balance.";
+        }
+      } catch (err) {
+        document.getElementById("checkResult").textContent = "Error fetching balance.";
       }
-    } else {
-      document.getElementById("checkResult").textContent = "Unable to fetch balance.";
     }
-  } catch (err) {
-    document.getElementsById("checkResult").textContent = "Error fetching balance.";
-  }
-}
-
 
     async function deposit() {
       const amount = parseFloat(document.getElementById("depositAmount").value);
